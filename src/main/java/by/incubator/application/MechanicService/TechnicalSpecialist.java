@@ -1,4 +1,4 @@
-package by.incubator.application.Service;
+package by.incubator.application.MechanicService;
 
 import by.incubator.application.Engins.DieselEngine;
 import by.incubator.application.Engins.ElectricalEngine;

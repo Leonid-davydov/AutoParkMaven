@@ -2,4 +2,4 @@
 /target/
 /src/test/
 *.idea
-*.xml
+*.iml

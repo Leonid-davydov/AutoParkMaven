@@ -1,7 +1,7 @@
 package by.incubator.application.Main;
 
 import by.incubator.application.Collections.*;
-import by.incubator.application.Service.*;
+import by.incubator.application.MechanicService.*;
 import by.incubator.application.infrastrucrure.core.impl.ApplicationContext;
 
 import java.util.HashMap;
@@ -22,10 +22,3 @@ public class Main {
         return map;
     }
 }
-
-
-
-
-
-
-

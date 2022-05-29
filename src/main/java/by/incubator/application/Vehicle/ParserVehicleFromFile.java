@@ -5,7 +5,7 @@ import by.incubator.application.Engins.ElectricalEngine;
 import by.incubator.application.Engins.GasolineEngine;
 import by.incubator.application.Engins.Startable;
 import by.incubator.application.Rent.Rent;
-import by.incubator.application.Service.TechnicalSpecialist;
+import by.incubator.application.MechanicService.TechnicalSpecialist;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 import by.incubator.application.infrastrucrure.core.annotations.InitMethod;
 

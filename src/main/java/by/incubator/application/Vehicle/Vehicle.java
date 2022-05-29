@@ -3,7 +3,7 @@ package by.incubator.application.Vehicle;
 import by.incubator.application.Engins.Startable;
 import by.incubator.application.Exceptions.NotVehicleException;
 import by.incubator.application.Rent.Rent;
-import by.incubator.application.Service.TechnicalSpecialist;
+import by.incubator.application.MechanicService.TechnicalSpecialist;
 
 import java.util.ArrayList;
 import java.util.List;
