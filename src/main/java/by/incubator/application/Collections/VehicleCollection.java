@@ -1,6 +1,9 @@
 package by.incubator.application.Collections;
 
-import by.incubator.application.Vehicle.ParserVehicleFromFile;
+import by.incubator.application.entity.Types;
+import by.incubator.application.entity.Vehicles;
+import by.incubator.application.parsers.ParserVehicle;
+import by.incubator.application.parsers.impl.ParserVehicleFromFile;
 import by.incubator.application.Vehicle.Vehicle;
 import by.incubator.application.Vehicle.VehicleType;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
@@ -10,30 +13,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleCollection {
-    private List<VehicleType> vehicleTypes = new ArrayList<>();
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<Types> vehicleTypes = new ArrayList<>();
+    private List<Vehicles> vehicles = new ArrayList<>();
     @Autowired
-    private ParserVehicleFromFile parser;
+    private ParserVehicle parser;
 
     public VehicleCollection() {}
 
-    public List<VehicleType> getVehicleTypes() {
+    public List<Types> getVehicleTypes() {
         return vehicleTypes;
     }
 
-    public void setVehicleTypes(List<VehicleType> vehicleTypes) {
+    public void setVehicleTypes(List<Types> vehicleTypes) {
         this.vehicleTypes = vehicleTypes;
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<Vehicles> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
+    public void setVehicles(List<Vehicles> vehicles) {
         this.vehicles = vehicles;
     }
 
-    public ParserVehicleFromFile getParser() {
+    public ParserVehicle getParser() {
         return parser;
     }
 
