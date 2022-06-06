@@ -9,10 +9,12 @@ import by.incubator.application.infrastrucrure.core.annotations.InitMethod;
 public class TechnicalSpecialist {
     public static final int LOWER_LIMIT_MANUFACTURE_YEAR = 1886;
 
-    public TechnicalSpecialist() {}
+    public TechnicalSpecialist() {
+    }
 
     @InitMethod
-    public void init() {}
+    public void init() {
+    }
 
     static public boolean validateManufactureYear(int year) {
         return year >= LOWER_LIMIT_MANUFACTURE_YEAR && year <= 9999;
@@ -42,7 +44,7 @@ public class TechnicalSpecialist {
         // ???
         if (number == null)
             return true;
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             if (number.charAt(i) < 48 || number.charAt(i) > 57) {
                 return false;
             }
@@ -50,7 +52,7 @@ public class TechnicalSpecialist {
         if (number.charAt(4) != ' ') {
             return false;
         }
-        for (int i = 5; i < 7; i++){
+        for (int i = 5; i < 7; i++) {
             if (number.charAt(i) < 65 || number.charAt(i) > 90) {
                 return false;
             }

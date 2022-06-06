@@ -10,7 +10,8 @@ public class Workroom {
     @Autowired
     private Fixer mechanic;
 
-    public Workroom() {}
+    public Workroom() {
+    }
 
     public Fixer getMechanic() {
         return mechanic;

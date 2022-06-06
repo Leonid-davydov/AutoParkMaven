@@ -12,7 +12,8 @@ public class VehicleService {
     EntityManager entityManager;
 
     @InitMethod
-    public void init() {}
+    public void init() {
+    }
 
     public Vehicles get(Long id) {
         return entityManager.get(id, Vehicles.class).get();

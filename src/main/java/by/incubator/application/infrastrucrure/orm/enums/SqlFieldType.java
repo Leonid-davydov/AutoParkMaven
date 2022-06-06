@@ -3,7 +3,8 @@ package by.incubator.application.infrastrucrure.orm.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @AllArgsConstructor
 @Getter

@@ -7,6 +7,8 @@ import java.util.Map;
 
 public interface ParserBreakings {
     Map<String, Integer> detectBreaking(Vehicles vehicle);
+
     void repair(Vehicles vehicle);
+
     boolean isBroken(Vehicles vehicle);
 }

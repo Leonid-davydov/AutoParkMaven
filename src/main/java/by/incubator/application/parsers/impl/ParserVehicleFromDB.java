@@ -29,11 +29,11 @@ public class ParserVehicleFromDB implements ParserVehicle {
 
     @Override
     public List<Rents> loadRents(List<Vehicles> vehicles, String inFile) {
-        return null;
+        return rentsService.getAll();
     }
 
     @Override
     public List<Vehicles> loadVehicles(List<Types> vehicleTypes, String inFile) {
-        return null;
+        return vehicleService.getAll();
     }
 }

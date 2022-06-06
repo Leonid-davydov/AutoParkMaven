@@ -83,7 +83,7 @@ public class PostgreDataBaseService {
     public Long save(Object obj) {
         Long id;
         Field idField = getIdField(obj.getClass().getDeclaredFields());
-        String idFieldName = obj.getClass().getDeclaredAnnotation(ID.class).name();
+        String idFieldName = getIdField(obj.getClass().getDeclaredFields()).getAnnotation(ID.class).name();
         Object[] values = getValues(obj);
         String sql = String.format(insertByClassPattern.get(obj.getClass().getName()), values);
 
@@ -112,7 +112,7 @@ public class PostgreDataBaseService {
         checkTableAnnotation(clazz);
 
         String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name() +
-                " WHERE " + clazz.getDeclaredAnnotation(ID.class).name() + " = " + id;
+                " WHERE " + getIdField(clazz.getDeclaredFields()).getAnnotation(ID.class).name() + " = " + id;
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -140,7 +140,7 @@ public class PostgreDataBaseService {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 list.add(makeObject(resultSet, clazz));
             }
         }
@@ -244,7 +244,7 @@ public class PostgreDataBaseService {
         Field[] declaredFields = entity.getDeclaredFields();
 
         String tableName = entity.getDeclaredAnnotation(Table.class).name();
-        String idField = entity.getDeclaredAnnotation(ID.class).name();
+        String idField = getIdField(declaredFields).getAnnotation(ID.class).name();
         String fields = buildFields(declaredFields);
         String sql = String.format(CREATE_TABLE_SQL_PATTERN, tableName, idField, SEQ_NAME, fields);
 
@@ -270,17 +270,22 @@ public class PostgreDataBaseService {
     }
 
     private String buildField(Column column, String className) {
-        return ", " +
-                column.name() +
-                " " + classToSql.get(className) +
-                (column.nullable() ? "" : " NOT NULL") +
-                (column.unique() ? " UNIQUE" : "");
+        StringBuilder strBuilder = new StringBuilder();
+        String sqlType = classToSql.get(className);
+
+        strBuilder.append(",\n\t");
+        strBuilder.append(column.name());
+        strBuilder.append(" ").append(sqlType);
+        strBuilder.append(column.nullable() ? "" : " NOT NULL");
+        strBuilder.append(column.unique() ? " UNIQUE" : "");
+
+        return strBuilder.toString();
     }
 
     private String getInsertQuery(Class<?> clazz) {
         Field[] declaredFields = clazz.getDeclaredFields();
         String tableName = clazz.getDeclaredAnnotation(Table.class).name();
-        String idFieldName = clazz.getDeclaredAnnotation(ID.class).name();
+        String idFieldName = getIdField(declaredFields).getAnnotation(ID.class).name();
         String insertFields = Arrays.stream(declaredFields)
                 .filter(field -> field.isAnnotationPresent(Column.class))
                 .map(field -> field.getDeclaredAnnotation(Column.class).name())

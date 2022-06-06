@@ -17,16 +17,22 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
     private String password;
     private Connection connection;
 
-    public ConnectionFactoryImpl() {}
+    public ConnectionFactoryImpl() {
+    }
 
     @SneakyThrows
     @InitMethod
     public void initConnection() {
-        connection =  DriverManager.getConnection(url, username, password);
+        connection = DriverManager.getConnection(url, username, password);
     }
 
+    @SneakyThrows
     @Override
     public Connection getConnection() {
-        return connection;
+        if (!connection.isClosed()) {
+            return connection;
+        }
+
+        return DriverManager.getConnection(url, username, password);
     }
 }

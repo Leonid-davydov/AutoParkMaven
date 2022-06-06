@@ -12,7 +12,8 @@ public class TypesService {
     EntityManager entityManager;
 
     @InitMethod
-    public void init() {}
+    public void init() {
+    }
 
     public Types get(Long id) {
         return entityManager.get(id, Types.class).get();

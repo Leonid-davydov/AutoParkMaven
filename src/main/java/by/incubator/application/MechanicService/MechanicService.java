@@ -2,6 +2,7 @@ package by.incubator.application.MechanicService;
 
 import by.incubator.application.Vehicle.Vehicle;
 import by.incubator.application.entity.Vehicles;
+import by.incubator.application.parsers.ParserBreakings;
 import by.incubator.application.parsers.impl.ParserBreakingsFromFile;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 
@@ -10,9 +11,10 @@ import java.util.Map;
 public class MechanicService implements Fixer {
     private static String[] details = {"Filter", "Sleeve", "Shaft", "Axis", "Candle", "Oil", "GRM", "ShRUS"};
     @Autowired
-    private ParserBreakingsFromFile parser;
+    private ParserBreakings parser;
 
-    public MechanicService() {}
+    public MechanicService() {
+    }
 
     @Override
     public Map<String, Integer> detectBreaking(Vehicles vehicle) {
@@ -29,7 +31,7 @@ public class MechanicService implements Fixer {
         parser.repair(vehicle);
     }
 
-    public ParserBreakingsFromFile getParser() {
+    public ParserBreakings getParser() {
         return parser;
     }
 

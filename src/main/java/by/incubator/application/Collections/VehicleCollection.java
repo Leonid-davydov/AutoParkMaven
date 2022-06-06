@@ -18,7 +18,8 @@ public class VehicleCollection {
     @Autowired
     private ParserVehicle parser;
 
-    public VehicleCollection() {}
+    public VehicleCollection() {
+    }
 
     public List<Types> getVehicleTypes() {
         return vehicleTypes;
@@ -47,6 +48,6 @@ public class VehicleCollection {
     @InitMethod
     public void init() {
         vehicleTypes = parser.loadTypes("types");
-        vehicles = parser.loadVehicles(vehicleTypes,"vehicles");
+        vehicles = parser.loadVehicles(vehicleTypes, "vehicles");
     }
 }

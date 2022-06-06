@@ -12,7 +12,8 @@ public class OrdersService {
     EntityManager entityManager;
 
     @InitMethod
-    public void init() {}
+    public void init() {
+    }
 
     public Orders get(Long id) {
         return entityManager.get(id, Orders.class).get();

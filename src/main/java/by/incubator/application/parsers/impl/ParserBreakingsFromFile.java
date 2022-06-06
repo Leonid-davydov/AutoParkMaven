@@ -24,7 +24,6 @@ public class ParserBreakingsFromFile implements ParserBreakings {
     }
 
     private static String[] details = new String[]{"Filter", "Sleeve", "Shaft", "Axis", "Candle", "Oil", "GRM", "ShRUS"};
-
     private static String PATH = "src/main/resources/data/orders.csv";
     private static String PATH_COPY = "src/main/resources/data/ordersCopy.csv";
 
@@ -146,6 +145,7 @@ public class ParserBreakingsFromFile implements ParserBreakings {
 
     private String getId(String breakings) {
         String id = breakings.substring(0, breakings.indexOf(','));
+
         return id;
     }
 

@@ -12,7 +12,8 @@ public class RentsService {
     EntityManager entityManager;
 
     @InitMethod
-    public void init() {}
+    public void init() {
+    }
 
     public Rents get(Long id) {
         return entityManager.get(id, Rents.class).get();

@@ -13,7 +13,8 @@ public class BadMechanicService implements Fixer {
     }
 
     @Override
-    public void repair(Vehicles vehicle) {}
+    public void repair(Vehicles vehicle) {
+    }
 
     @Override
     public boolean isBroken(Vehicles vehicle) {

@@ -17,7 +17,8 @@ public class EntityManagerImpl implements EntityManager {
     @Autowired
     private Context context;
 
-    public EntityManagerImpl() {}
+    public EntityManagerImpl() {
+    }
 
     @Override
     public <T> Optional<T> get(Long id, Class<T> clazz) {
