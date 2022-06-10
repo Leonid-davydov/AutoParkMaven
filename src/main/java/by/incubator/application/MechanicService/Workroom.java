@@ -1,6 +1,7 @@
 package by.incubator.application.MechanicService;
 
 import by.incubator.application.Vehicle.Vehicle;
+import by.incubator.application.entity.Vehicles;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 
 import java.util.List;
@@ -9,7 +10,8 @@ public class Workroom {
     @Autowired
     private Fixer mechanic;
 
-    public Workroom() {}
+    public Workroom() {
+    }
 
     public Fixer getMechanic() {
         return mechanic;
@@ -19,15 +21,15 @@ public class Workroom {
         this.mechanic = mechanic;
     }
 
-    public void checkAllVehicles(List<Vehicle> vehicles) {
+    public void checkAllVehicles(List<Vehicles> vehicles) {
         System.out.println("Broken cars:");
-        for (Vehicle vehicle : vehicles) {
+        for (Vehicles vehicle : vehicles) {
             if (mechanic.isBroken(vehicle))
                 System.out.println(vehicle);
         }
 
         System.out.println("Not broken cars:");
-        for (Vehicle vehicle : vehicles) {
+        for (Vehicles vehicle : vehicles) {
             if (!mechanic.isBroken(vehicle))
                 System.out.println(vehicle);
         }

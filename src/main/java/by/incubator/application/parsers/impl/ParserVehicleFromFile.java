@@ -1,4 +1,4 @@
-package by.incubator.application.Vehicle;
+package by.incubator.application.parsers.impl;
 
 import by.incubator.application.Engins.DieselEngine;
 import by.incubator.application.Engins.ElectricalEngine;
@@ -6,28 +6,40 @@ import by.incubator.application.Engins.GasolineEngine;
 import by.incubator.application.Engins.Startable;
 import by.incubator.application.Rent.Rent;
 import by.incubator.application.MechanicService.TechnicalSpecialist;
+import by.incubator.application.Vehicle.Color;
+import by.incubator.application.Vehicle.Vehicle;
+import by.incubator.application.Vehicle.VehicleType;
+import by.incubator.application.entity.Rents;
+import by.incubator.application.entity.Types;
+import by.incubator.application.entity.Vehicles;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 import by.incubator.application.infrastrucrure.core.annotations.InitMethod;
+import by.incubator.application.parsers.ParserVehicle;
+import by.incubator.application.service.TypesService;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ParserVehicleFromFile {
+public class ParserVehicleFromFile implements ParserVehicle {
     @Autowired
     private TechnicalSpecialist technicalSpecialist;
 
-    public ParserVehicleFromFile() {}
+    public ParserVehicleFromFile() {
+    }
 
     @InitMethod
     public void init() {
     }
 
-    public List<VehicleType> loadTypes(String inFile) {
-        List<VehicleType> newList = new ArrayList<>();
+    @Override
+    public List<Types> loadTypes(String inFile) {
+        List<Types> newList = new ArrayList<>();
         File file = new File("src/main/resources/data/" + inFile + ".csv");
         try (
                 FileInputStream fileInputStream = new FileInputStream(file);
@@ -43,8 +55,9 @@ public class ParserVehicleFromFile {
         return newList;
     }
 
-    List<Rent> loadRents(List<Vehicle> vehicles, String inFile) {
-        List<Rent> newList = new ArrayList<>();
+    @Override
+    public List<Rents> loadRents(List<Vehicles> vehicles, String inFile) {
+        List<Rents> newList = new ArrayList<>();
         File file = new File("src/main/resources/data/" + inFile + ".csv");
         try (
                 FileInputStream fileInputStream = new FileInputStream(file);
@@ -55,25 +68,19 @@ public class ParserVehicleFromFile {
 
                 int from;
                 int to;
-                int id;
+                long id;
                 Date date;
-                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
                 double price;
 
                 from = fileLine.indexOf(',') + 1;
                 to = fileLine.indexOf(',', from);
 
                 id = Integer.parseInt(fileLine.substring(0, from - 1));
-                date = format.parse(fileLine.substring(from, to));
+                date = new Date(formatter.parse(fileLine.substring(from, to)).getTime());
                 price = Double.parseDouble(fileLine.substring(to + 1).replaceAll(",", ".").replaceAll("\"", " "));
 
-                newList.add(new Rent(id, date, price));
-                for (Vehicle v : vehicles) {
-                    if (v.getId() == id) {
-                        v.getHistory().add(new Rent(id, date, price));
-                        break;
-                    }
-                }
+                newList.add(new Rents(id, date, price));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,8 +90,9 @@ public class ParserVehicleFromFile {
         return newList;
     }
 
-    public List<Vehicle> loadVehicles(List<VehicleType> vehicleTypes, String inFile) {
-        List<Vehicle> newList = new ArrayList<>();
+    @Override
+    public List<Vehicles> loadVehicles(List<Types> vehicleTypes, String inFile) {
+        List<Vehicles> newList = new ArrayList<>();
         File file = new File("src/main/resources/data/" + inFile + ".csv");
         try (
                 FileInputStream fileInputStream = new FileInputStream(file);
@@ -101,31 +109,79 @@ public class ParserVehicleFromFile {
         return newList;
     }
 
-    VehicleType createType(String csvString) {
+    public void insert(List<Vehicle> vehicles, int index, Vehicle v) {
+        if (index >= 0 && index < vehicles.size())
+            vehicles.set(index, v);
+        else
+            vehicles.add(v);
+    }
+
+    public int delete(List<Vehicle> vehicles, int index) {
+        if (index >= 0 && index < vehicles.size()) {
+            vehicles.remove(index);
+            return index;
+        } else
+            return -1;
+    }
+
+    public double sumTotalProfit(List<Vehicle> vehicles) {
+        double sum = 0.0;
+        for (Vehicle v : vehicles) {
+            sum += v.getTotalProfit();
+        }
+        return sum;
+    }
+
+    public void display(List<Vehicle> vehicles) {
+        System.out.println(String.format("%3s %10s %20s %12s %15s %7s %10s %10s %10s %10s %10s",
+                "Id", "Type", "ModelName", "Number", "Weight (kg)", "Year", "Millage", "by.incubator.application.Vehicle.Color", "Income", "Tax", "Profit"));
+
+        for (Vehicle v : vehicles) {
+            System.out.println(String.format("%3d %10s %20s %12s %15d %7d %10d %10s %10s %10s %10s",
+                    v.getId(),
+                    v.getVehicleType().getName(),
+                    v.getModelName(),
+                    v.getRegistrationNumber(),
+                    v.getWeight(),
+                    v.getManufactureYear(),
+                    v.getMileage(),
+                    v.getColor(),
+                    String.format("%.2f", v.getTotalIncome()),
+                    String.format("%.2f", v.getCalcTaxPerMonth()),
+                    String.format("%.2f", v.getTotalProfit())
+            ));
+        }
+        System.out.println(String.format("Total %121s", String.format("%.2f", sumTotalProfit(vehicles))));
+    }
+
+    public void sort(List<Vehicle> vehicles, Comparator<Vehicle> comparator) {
+        vehicles.sort(comparator);
+    }
+
+    private Types createType(String csvString) {
         int from;
         int to;
-        int id;
+        long id;
         String name;
         double coefficient;
 
         from = csvString.indexOf(',') + 1;
         to = csvString.indexOf(',', from);
 
-        id = Integer.parseInt(csvString.substring(0, from - 1));
+        id = Long.parseLong(csvString.substring(0, from - 1));
 
         name = csvString.substring(from, to);
         coefficient = Double.parseDouble(csvString.substring(to + 1).replaceAll(",", ".").replaceAll("\"", " "));
 
-        return new VehicleType(id, name, coefficient);
+        return new Types(id, name, coefficient);
     }
 
-    Vehicle createVehicle(List<VehicleType> vehicleTypes, String csvString) {
+    private Vehicles createVehicle(List<Types> vehicleTypes, String csvString) {
         String fileLine = csvString;
         int from;
         int to;
-        int id;
-        int vehicleType;
-        VehicleType type;
+        long id;
+        long vehicleType;
         String modelName;
         String registrationNumber;
         int weight;
@@ -142,8 +198,8 @@ public class ParserVehicleFromFile {
         from = fileLine.indexOf(',');
         to = fileLine.indexOf(',', from + 1);
 
-        id = Integer.parseInt(fileLine.substring(0, from));
-        vehicleType = Integer.parseInt(fileLine.substring(from + 1, to));
+        id = Long.parseLong(fileLine.substring(0, from));
+        vehicleType = Long.parseLong(fileLine.substring(from + 1, to));
 
         from = to;
         to = fileLine.indexOf(',', from + 1);
@@ -218,7 +274,6 @@ public class ParserVehicleFromFile {
             three = fileLine.substring(from, to).replaceAll(",", ".");
         }
 
-        type = vehicleTypes.get(vehicleType - 1);
         for (Color c : Color.values()) {
             if (strColor.equals(c.toString())) {
                 color = c;
@@ -235,56 +290,7 @@ public class ParserVehicleFromFile {
         } else {
         }
 
-        return new Vehicle(id, type, modelName, registrationNumber, weight,
-                manufactureYear, mileage, color, engine);
-    }
-
-    public void insert(List<Vehicle> vehicles, int index, Vehicle v) {
-        if (index >= 0 && index < vehicles.size())
-            vehicles.set(index, v);
-        else
-            vehicles.add(v);
-    }
-
-    public int delete(List<Vehicle> vehicles, int index) {
-        if (index >= 0 && index < vehicles.size()) {
-            vehicles.remove(index);
-            return index;
-        } else
-            return -1;
-    }
-
-    public double sumTotalProfit(List<Vehicle> vehicles) {
-        double sum = 0.0;
-        for (Vehicle v : vehicles) {
-            sum += v.getTotalProfit();
-        }
-        return sum;
-    }
-
-    public void display(List<Vehicle> vehicles) {
-        System.out.println(String.format("%3s %10s %20s %12s %15s %7s %10s %10s %10s %10s %10s",
-                "Id", "Type", "ModelName", "Number", "Weight (kg)", "Year", "Millage", "by.incubator.application.Vehicle.Color", "Income", "Tax", "Profit"));
-
-        for (Vehicle v : vehicles) {
-            System.out.println(String.format("%3d %10s %20s %12s %15d %7d %10d %10s %10s %10s %10s",
-                    v.getId(),
-                    v.getVehicleType().getName(),
-                    v.getModelName(),
-                    v.getRegistrationNumber(),
-                    v.getWeight(),
-                    v.getManufactureYear(),
-                    v.getMileage(),
-                    v.getColor(),
-                    String.format("%.2f", v.getTotalIncome()),
-                    String.format("%.2f", v.getCalcTaxPerMonth()),
-                    String.format("%.2f", v.getTotalProfit())
-            ));
-        }
-        System.out.println(String.format("Total %121s", String.format("%.2f", sumTotalProfit(vehicles))));
-    }
-
-    public void sort(List<Vehicle> vehicles, Comparator<Vehicle> comparator) {
-        vehicles.sort(comparator);
+        return new Vehicles(id, vehicleType, modelName, registrationNumber, weight,
+                            manufactureYear, mileage, strColor, strEngine);
     }
 }

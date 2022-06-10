@@ -11,34 +11,39 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
 public class PropertyObjectConfigurator implements ObjectConfigurator {
+
     private final Map<String, String> properties;
 
     @SneakyThrows
     public PropertyObjectConfigurator() {
-        URL path = this.getClass().getClassLoader().getResource("application.properties");
-
+        URL path = this.getClass().getClassLoader()
+                .getResource("application.properties");
         if (path == null) {
             throw new FileNotFoundException(String.format("File '%s' not found", "application.properties"));
         }
-        Stream<String> lines = new BufferedReader(new InputStreamReader(path.openStream()) ).lines();
-        properties = lines.map(line -> line.split("=")).collect(toMap(arr -> arr[0], arr -> arr[1]));
+
+        Stream<String> lines = new BufferedReader(new InputStreamReader(path.openStream()))
+                .lines();
+        properties = lines.map(line -> line.split("="))
+                .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
     }
 
     @Override
     @SneakyThrows
     public void configure(Object object, Context context) {
         String key;
-        Field[] fields = object.getClass().getFields();
+        Field[] fields = object.getClass().getDeclaredFields();
 
         for (Field field : fields) {
             if (field.isAnnotationPresent(Property.class)) {
 
-                key = field.getAnnotation(Property.class).value();
+                key = getPropertyValue(field);
 
                 if (key.isEmpty()) {
                     key = field.getName();
@@ -48,5 +53,9 @@ public class PropertyObjectConfigurator implements ObjectConfigurator {
                 field.set(object, properties.get(key));
             }
         }
+    }
+
+    private String getPropertyValue(Field field) {
+        return field.getAnnotation(Property.class).value();
     }
 }

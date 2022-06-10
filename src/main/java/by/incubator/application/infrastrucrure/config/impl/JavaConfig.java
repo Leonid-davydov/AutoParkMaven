@@ -22,7 +22,7 @@ public class JavaConfig implements Config {
         Set set = scanner.getSubTypesOf(target);
 
         if (set.size() != 1) {
-            throw new RuntimeException("target interface has 0 or more then one impl");
+            throw new RuntimeException("target interface has 0 or more then one impl " + target.getName());
         } else {
             return (Class<? extends T>) set.stream().findFirst().get();
         }
