@@ -1,21 +1,18 @@
 package by.incubator.application.parsers.impl;
 
-import by.incubator.application.Engins.DieselEngine;
-import by.incubator.application.Engins.ElectricalEngine;
-import by.incubator.application.Engins.GasolineEngine;
-import by.incubator.application.Engins.Startable;
-import by.incubator.application.Rent.Rent;
-import by.incubator.application.MechanicService.TechnicalSpecialist;
-import by.incubator.application.Vehicle.Color;
-import by.incubator.application.Vehicle.Vehicle;
-import by.incubator.application.Vehicle.VehicleType;
+import by.incubator.application.engins.DieselEngine;
+import by.incubator.application.engins.ElectricalEngine;
+import by.incubator.application.engins.GasolineEngine;
+import by.incubator.application.engins.Startable;
+import by.incubator.application.mechanicService.TechnicalSpecialist;
+import by.incubator.application.vehicle.Color;
+import by.incubator.application.vehicle.Vehicle;
 import by.incubator.application.entity.Rents;
 import by.incubator.application.entity.Types;
 import by.incubator.application.entity.Vehicles;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 import by.incubator.application.infrastrucrure.core.annotations.InitMethod;
 import by.incubator.application.parsers.ParserVehicle;
-import by.incubator.application.service.TypesService;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,6 +1,5 @@
 package by.incubator.application.parsers;
 
-import by.incubator.application.Vehicle.Vehicle;
 import by.incubator.application.entity.Vehicles;
 
 import java.util.Map;

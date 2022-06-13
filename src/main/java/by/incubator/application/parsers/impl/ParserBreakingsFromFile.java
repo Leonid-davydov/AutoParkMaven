@@ -1,6 +1,5 @@
 package by.incubator.application.parsers.impl;
 
-import by.incubator.application.Vehicle.Vehicle;
 import by.incubator.application.entity.Vehicles;
 import by.incubator.application.parsers.ParserBreakings;
 import com.opencsv.CSVReader;

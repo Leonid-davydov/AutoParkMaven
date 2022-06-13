@@ -1,8 +1,5 @@
 package by.incubator.application.parsers.impl;
 
-import by.incubator.application.Rent.Rent;
-import by.incubator.application.Vehicle.Vehicle;
-import by.incubator.application.Vehicle.VehicleType;
 import by.incubator.application.entity.Rents;
 import by.incubator.application.entity.Types;
 import by.incubator.application.entity.Vehicles;

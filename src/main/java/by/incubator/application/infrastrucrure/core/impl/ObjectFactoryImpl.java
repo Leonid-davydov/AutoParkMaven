@@ -1,10 +1,12 @@
 package by.incubator.application.infrastrucrure.core.impl;
 
 import by.incubator.application.infrastrucrure.configurators.ObjectConfigurator;
+import by.incubator.application.infrastrucrure.configurators.ProxyConfigurator;
 import by.incubator.application.infrastrucrure.configurators.impl.AutowiredObjectConfigurator;
 import by.incubator.application.infrastrucrure.configurators.impl.PropertyObjectConfigurator;
 import by.incubator.application.infrastrucrure.core.Context;
 import by.incubator.application.infrastrucrure.core.ObjectFactory;
+import by.incubator.application.infrastrucrure.core.Scanner;
 import by.incubator.application.infrastrucrure.core.annotations.InitMethod;
 import lombok.SneakyThrows;
 
@@ -17,19 +19,26 @@ import java.util.Set;
 public class ObjectFactoryImpl implements ObjectFactory {
     private final Context context;
     private final List<ObjectConfigurator> objectConfigurators = new ArrayList<>();
+    private final List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
 
     @SneakyThrows
     public ObjectFactoryImpl(Context context) {
         this.context = context;
-        Set<Class<? extends ObjectConfigurator>> objConfigs = context
-                .getConfig()
-                .getScanner()
-                .getSubTypesOf(ObjectConfigurator.class);
+        Scanner scanner = context.getConfig().getScanner();
+        Set<Class<? extends ObjectConfigurator>> objConfigs = scanner.getSubTypesOf(ObjectConfigurator.class);
+        Set<Class<? extends ProxyConfigurator>> proxyConfigs = scanner.getSubTypesOf(ProxyConfigurator.class);
+
         objConfigs.add(AutowiredObjectConfigurator.class);
         objConfigs.add(PropertyObjectConfigurator.class);
+
         for (Class<? extends ObjectConfigurator> objConfig : objConfigs) {
             Constructor<? extends ObjectConfigurator> constructor = objConfig.getConstructor();
             objectConfigurators.add(constructor.newInstance());
+        }
+
+        for (Class<? extends ProxyConfigurator> proxyConfig : proxyConfigs) {
+            Constructor<? extends ProxyConfigurator> constructor = proxyConfig.getConstructor();
+            proxyConfigurators.add(constructor.newInstance());
         }
     }
 
@@ -39,7 +48,17 @@ public class ObjectFactoryImpl implements ObjectFactory {
         T newObject = create(implementation);
         configure(newObject);
         initialize(implementation, newObject);
+        newObject = makeProxy(implementation, newObject);
+
         return newObject;
+    }
+
+    private <T> T makeProxy(Class<T> implClass, T object) {
+        for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
+            object = proxyConfigurator.makeProxy(object, implClass, context);
+        }
+
+        return object;
     }
 
     private <T> T create(Class<T> implementation) throws Exception {
