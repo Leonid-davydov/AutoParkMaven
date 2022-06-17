@@ -31,4 +31,8 @@ public class Vehicles {
     private String color;
     @Column(name = "engineType")
     private String engineType;
+    @Column(name = "volume")
+    private Integer volume;
+    @Column(name = "consumption")
+    private Integer consumption;
 }

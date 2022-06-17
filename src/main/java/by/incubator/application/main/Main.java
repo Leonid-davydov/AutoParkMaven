@@ -13,6 +13,7 @@ import by.incubator.application.parsers.ParserBreakings;
 import by.incubator.application.parsers.ParserVehicle;
 import by.incubator.application.parsers.impl.ParserBreakingsFromDB;
 import by.incubator.application.parsers.impl.ParserVehicleFromDB;
+import by.incubator.application.parsers.impl.ParserVehicleFromFile;
 import by.incubator.application.service.TypesService;
 import by.incubator.application.vehicle.Color;
 import by.incubator.application.vehicle.Vehicle;
@@ -27,16 +28,17 @@ public class Main {
         ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
         VehiclesChecker vehiclesChecker = context.getObject(VehiclesChecker.class);
 
-        vehiclesChecker.vehiclesFromDbToWorkroom(context);
-
-        Thread.sleep(120000);
+        VehicleCollection vehicleCollection = context.getObject(VehicleCollection.class);
+        for (Vehicles vehicles : vehicleCollection.getVehicles()){
+            System.out.println(vehicles);
+        }
     }
 
     private static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
         Map<Class<?>, Class<?>> map = new HashMap<>();
 
         map.put(Fixer.class, MechanicService.class);
-        map.put(ParserVehicle.class, ParserVehicleFromDB.class);
+        map.put(ParserVehicle.class, ParserVehicleFromFile.class);
         map.put(ParserBreakings.class, ParserBreakingsFromDB.class);
 
         return map;
