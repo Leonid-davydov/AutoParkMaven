@@ -44,7 +44,7 @@ public class Main {
 
     }
 
-    private static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
+    public static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
         Map<Class<?>, Class<?>> map = new HashMap<>();
 
         map.put(Fixer.class, MechanicService.class);

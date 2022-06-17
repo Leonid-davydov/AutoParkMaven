@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class VehicleDto {
-    public int typeId;
+    public long typeId;
     private String typeName;
     private double taxCoefficient;
     private String modelName;
@@ -18,7 +18,7 @@ public class VehicleDto {
     private  double tankVolume;
     private String engineName;
     private double engineTaxCoefficient;
-    private int id;
+    private long id;
     private double per100km;
     private double maxKm;
     private double tax;
