@@ -39,7 +39,7 @@ public class PostgreDataBaseService {
                     ");";
     private static final String CREATE_TABLE_SQL_PATTERN =
             "CREATE TABLE %s (\n" +
-                    "    %s integer PRIMARY KEY DEFAULT nextval('%s')" +
+                    "    %s serial PRIMARY KEY" +
                     "    %S\n);";
     private static final String INSERT_SQL_PATTERN =
             "INSERT INTO %s(%s)\n" +
@@ -246,7 +246,9 @@ public class PostgreDataBaseService {
         String tableName = entity.getDeclaredAnnotation(Table.class).name();
         String idField = getIdField(declaredFields).getAnnotation(ID.class).name();
         String fields = buildFields(declaredFields);
-        String sql = String.format(CREATE_TABLE_SQL_PATTERN, tableName, idField, SEQ_NAME, fields);
+        String sql = String.format(CREATE_TABLE_SQL_PATTERN, tableName, idField, fields);
+
+        System.out.println(sql);
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement()) {

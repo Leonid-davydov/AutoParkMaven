@@ -77,7 +77,7 @@ public class ParserVehicleFromFile implements ParserVehicle {
                 date = new Date(formatter.parse(fileLine.substring(from, to)).getTime());
                 price = Double.parseDouble(fileLine.substring(to + 1).replaceAll(",", ".").replaceAll("\"", " "));
 
-                newList.add(new Rents(id, date, price));
+                newList.add(new Rents(1l, id, date, price));
             }
         } catch (IOException e) {
             e.printStackTrace();
