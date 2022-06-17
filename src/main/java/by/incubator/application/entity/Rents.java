@@ -14,7 +14,9 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rents {
-    @ID(name = "carId")
+    @ID(name = "Id")
+    private Long Id;
+    @Column(name = "carId")
     private Long carId;
     @Column(name = "date")
     private Date date;
