@@ -47,13 +47,13 @@ public class VehicleTypeService {
         }).collect(Collectors.toList());
     }
 
-    public List<TypesDto> getTypes() {
+    public List<VehicleTypeDto> getTypes() {
         return typesService.getAll().stream().map(types -> {
 
-            return TypesDto.builder()
+            return VehicleTypeDto.builder()
                     .id(types.getId())
                     .name(types.getName())
-                    .coefTaxes(types.getCoefTaxes())
+                    .taxCoefficient(types.getCoefTaxes())
                     .build();
         }).collect(Collectors.toList());
     }

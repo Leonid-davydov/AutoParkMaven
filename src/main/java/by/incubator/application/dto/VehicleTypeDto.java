@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class TypesDto {
+public class VehicleTypeDto {
     private long id;
     private String name;
-    private double coefTaxes;
+    private double taxCoefficient;
 }

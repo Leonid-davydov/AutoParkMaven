@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Comparator" %><%--
+<%@ page import="java.util.Comparator" %>
+<%@ page import="by.incubator.application.dto.VehicleTypeDto" %><%--
   Created by IntelliJ IDEA.
   User: Леонид
   Date: 16.06.2022

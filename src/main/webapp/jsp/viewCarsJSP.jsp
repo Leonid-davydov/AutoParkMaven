@@ -2,7 +2,9 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page import="java.util.concurrent.atomic.AtomicReference" %>
-<%@ page import="java.util.Optional" %><%--
+<%@ page import="java.util.Optional" %>
+<%@ page import="by.incubator.application.dto.VehicleDto" %>
+<%@ page import="java.util.function.Predicate" %><%--
   Created by IntelliJ IDEA.
   User: Леонид
   Date: 16.06.2022
