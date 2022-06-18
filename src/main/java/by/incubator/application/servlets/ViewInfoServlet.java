@@ -1,5 +1,9 @@
 package by.incubator.application.servlets;
 
+import by.incubator.application.dto.VehicleTypeService;
+import by.incubator.application.infrastrucrure.core.impl.ApplicationContext;
+import by.incubator.application.main.Main;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,10 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "/info")
 public class ViewInfoServlet extends HttpServlet {
+    Map<Class<?>, Class<?>> interfaceToImplementation = Main.initInterfaceToImplementation();
+    ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
+    VehicleTypeService vehicleTypeService = context.getObject(VehicleTypeService.class);
 
     @Override
     public void init() throws ServletException {
@@ -22,7 +30,7 @@ public class ViewInfoServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 
         request.setAttribute("cars",
-                vehicleTypeService.getVehicles().stream().filter(vehicleDto -> id =
+                vehicleTypeService.getVehicles().stream().filter(vehicleDto -> id ==
                 vehicleDto.getId()).collect(Collectors.toList()));
         request.setAttribute("rents", vehicleTypeService.getRent(id));
         RequestDispatcher dispatcher = this.getServletContext()
