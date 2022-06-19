@@ -58,8 +58,8 @@
 
             dtoList = dtoList.stream().filter(filter.get()).collect(Collectors.toList());
         %>
-        <a class="ml-20" href="/">На главную</a>
-        <a class="ml-20" href="/viewCars">Очистить фильтры</a>
+        <a class="ml-20" href="resources/index.html">На главную</a>
+        <a class="ml-20" href="/AutoParkMaven_war_exploded/viewCars">Очистить фильтры</a>
         <br />
         <br />
         <hr />
@@ -103,7 +103,7 @@
         <div>
             <hr />
             <br />
-            <from method="get" action="/viewCars" class="flex">
+            <form method="get" action="/viewCars" class="flex">
                 <div>
                     <p>Тип</p>
                     <select name="type" >
@@ -153,7 +153,7 @@
                     </select>
                 </div>
                 <button class="ml-20" type="submit">Выбрать</button>
-            </from>
+            </form>
             <br />
             <hr />
         </div>

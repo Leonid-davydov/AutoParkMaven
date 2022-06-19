@@ -12,13 +12,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Просмотр типов машин</title>
+    <title>Types view</title>
     <link href="/resources/css/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="center flex full-vh">
         <div class="vertical-center">
-            <a class="ml-20" href="/">На главную</a>
+            <a class="ml-20" href="resources/index.html">To the main</a>
             <br/>
             <br/>
             <hr/>
@@ -39,21 +39,21 @@
             %>
             <div>
                 <a class="ml-20" href="<%=descPath%>">
-                    Сортировать по убыванию</a>
+                    Sort Descending</a>
                 <a class="ml-20" href="<%=ascPath%>">
-                    Сортировать по возрастанию</a>
+                    Sort ascending</a>
                 <a class="ml-20" href="<%=clearPath%>">
-                    Очистить параметры поиска</a>
+                    Clear search options</a>
             </div>
             <br/>
             <hr/>
             <br/>
             <% } %>
             <table>
-                <caption>Типы машин</caption>
+                <caption>Vehicles types</caption>
                 <tr>
-                    <th>Название</th>
-                    <th>Коэффициент дорожного налога</th>
+                    <th>Name</th>
+                    <th>Road tax coefficient</th>
                 </tr>
                 <%
                     List<VehicleTypeDto> dtoList =
@@ -84,10 +84,10 @@
                 <%}%>
             </table>
             <% if (dtoList.size() > 0) {%>
-            <p>Минимальный коэффициент:
+            <p>Minimum coefficient:
 <strong><%=dtoList.stream().map(VehicleTypeDto::getTaxCoefficient)
         .min(Double::compare).get()%></strong></p>
-            <p>Максимальный коэффициент:
+            <p>Maximum coefficient:
 <strong><%=dtoList.stream().map(VehicleTypeDto::getTaxCoefficient)
         .max(Double::compare).get()%></strong></p>
             <%}%>
@@ -96,9 +96,9 @@
             <br />
             <div>
                 <% if (request.getParameter("name") == null) {%><a class="ml-20"
-href="/viewTypes?name">Сортировать по названию</a><%}%>
+href="/viewTypes?name">Sort by name</a><%}%>
                 <% if (request.getParameter("tax") == null) {%><a class="ml-20"
-href="/viewTypes?tax">Сортировать по коэффициенту</a><%}%>
+href="/viewTypes?tax">Sort by coefficient</a><%}%>
             </div>
         </div>
     </div>

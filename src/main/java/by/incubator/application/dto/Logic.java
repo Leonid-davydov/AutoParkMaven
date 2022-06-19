@@ -34,7 +34,11 @@ public class Logic {
     }
 
     public double getMaxKm(Vehicles vehicles) {
-        return vehicles.getVolume() * 100 / vehicles.getConsumption();
+        if (vehicles.getConsumption() >= 0.0) {
+            return vehicles.getVolume() * 100.0 / vehicles.getConsumption();
+        } else {
+            return 0.0;
+        }
     }
 
     public double getIncome(Vehicles vehicles) {

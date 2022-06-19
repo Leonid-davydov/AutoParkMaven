@@ -1,5 +1,3 @@
-package by.incubator.application.servlets;
-
 import by.incubator.application.dto.VehicleTypeService;
 import by.incubator.application.infrastrucrure.core.impl.ApplicationContext;
 import by.incubator.application.main.Main;

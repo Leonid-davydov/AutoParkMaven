@@ -1,25 +1,31 @@
 package by.incubator.application.dto;
 
+import by.incubator.application.collections.VehicleCollection;
 import by.incubator.application.entity.Rents;
 import by.incubator.application.entity.Types;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
+import by.incubator.application.infrastrucrure.core.impl.ApplicationContext;
+import by.incubator.application.main.Main;
 import by.incubator.application.service.RentsService;
 import by.incubator.application.service.TypesService;
 import by.incubator.application.service.VehicleService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class VehicleTypeService {
-    @Autowired
-    VehicleService vehicleService;
-    @Autowired
-    TypesService typesService;
-    @Autowired
-    RentsService rentsService;
-    @Autowired
-    Logic logic;
+    Map<Class<?>, Class<?>> interfaceToImplementation = Main.initInterfaceToImplementation();
+    ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
+
+    VehicleService vehicleService = context.getObject(VehicleService.class);
+
+    TypesService typesService = context.getObject(TypesService.class);
+
+    RentsService rentsService = context.getObject(RentsService.class);
+
+    Logic logic = context.getObject(Logic.class);
 
     public List<VehicleDto> getVehicles() {
         return vehicleService.getAll().stream().map(vehicles -> {
