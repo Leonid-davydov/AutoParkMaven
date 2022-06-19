@@ -95,7 +95,7 @@
                 <td><%=dto.getEngineName()%></td>
                 <td><%=dto.getMileage()%></td>
                 <td><%=dto.getTankVolume()%></td>
-                <td><a href="<%="/info?id=" + dto.getId()%>">&#x1F4C3;</a></td>
+                <td><a href="<%="/AutoParkMaven_war_exploded/viewInfo?id=" + dto.getId()%>">&#x1F4C3;</a></td>
             </tr>
             <%}%>
         </table>

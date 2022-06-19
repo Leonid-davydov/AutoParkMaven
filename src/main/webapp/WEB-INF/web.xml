@@ -36,5 +36,12 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <url-pattern>/viewCars</url-pattern>
     </servlet-mapping>
 
-
+    <servlet>
+        <servlet-name>ViewInfoServlet</servlet-name>
+        <servlet-class>by.incubator.application.servlets.ViewInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewInfoServlet</servlet-name>
+        <url-pattern>/viewInfo</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "/info")
 public class ViewInfoServlet extends HttpServlet {
-    Map<Class<?>, Class<?>> interfaceToImplementation = Main.initInterfaceToImplementation();
-    ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
-    VehicleTypeService vehicleTypeService = context.getObject(VehicleTypeService.class);
+    VehicleTypeService vehicleTypeService = new VehicleTypeService();
 
     @Override
     public void init() throws ServletException {
