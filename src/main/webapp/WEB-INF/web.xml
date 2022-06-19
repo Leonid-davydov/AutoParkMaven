@@ -17,10 +17,10 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>ViewCarTypesServlet</servlet-name>
-        <servlet-class>ViewCarTypesServlet</servlet-class>
+        <servlet-class>by.incubator.application.servlets.ViewCarTypesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ViewCarTypesServlet</servlet-name>
@@ -29,11 +29,12 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 
     <servlet>
         <servlet-name>ViewCarsServlet</servlet-name>
-        <servlet-class>ViewCarsServlet</servlet-class>
+        <servlet-class>by.incubator.application.servlets.ViewCarsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ViewCarsServlet</servlet-name>
         <url-pattern>/viewCars</url-pattern>
     </servlet-mapping>
+
 
 </web-app>

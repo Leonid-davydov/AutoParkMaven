@@ -33,7 +33,7 @@
             %>
             <% if (sortKey != null) { %>
             <%
-                String clearPath = "/viewTypes";
+                String clearPath = "/AutoParkMaven_war_exploded/viewTypes";
                 String ascPath = "?" + sortKey + "&asc";
                 String descPath = "?" + sortKey + "&desc";
             %>
@@ -96,9 +96,9 @@
             <br />
             <div>
                 <% if (request.getParameter("name") == null) {%><a class="ml-20"
-href="/viewTypes?name">Sort by name</a><%}%>
+href="/AutoParkMaven_war_exploded/viewTypes?name">Sort by name</a><%}%>
                 <% if (request.getParameter("tax") == null) {%><a class="ml-20"
-href="/viewTypes?tax">Sort by coefficient</a><%}%>
+href="/AutoParkMaven_war_exploded/viewTypes?tax">Sort by coefficient</a><%}%>
             </div>
         </div>
     </div>

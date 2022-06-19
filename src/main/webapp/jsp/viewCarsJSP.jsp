@@ -103,7 +103,7 @@
         <div>
             <hr />
             <br />
-            <form method="get" action="/viewCars" class="flex">
+            <form method="get" action="/AutoParkMaven_war_exploded/viewCars" class="flex">
                 <div>
                     <p>Тип</p>
                     <select name="type" >
