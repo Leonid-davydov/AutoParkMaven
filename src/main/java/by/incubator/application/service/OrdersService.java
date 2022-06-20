@@ -26,4 +26,8 @@ public class OrdersService {
     public Long save(Orders order) {
         return entityManager.save(order);
     }
+
+    public void delete(Object object) {
+        entityManager.delete(object);
+    }
 }

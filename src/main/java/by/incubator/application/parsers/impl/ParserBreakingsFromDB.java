@@ -24,7 +24,7 @@ public class ParserBreakingsFromDB implements ParserBreakings {
         String detail;
         Integer number;
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             detail = details[getRandomInteger(0, 7)];
             number = getRandomInteger(0, 2);
 
@@ -42,14 +42,21 @@ public class ParserBreakingsFromDB implements ParserBreakings {
 
     @Override
     public void repair(Vehicles vehicle) {
+        Long id = vehicle.getId();
+
+        for (Orders orders : ordersService.getAll()) {
+            if (orders.getVehicleId().equals(id)) {
+                ordersService.delete(orders);
+            }
+        }
     }
 
     @Override
     public boolean isBroken(Vehicles vehicle) {
-        List<Orders> ordersList = ordersService.getAll();
+        Long id = vehicle.getId();
 
-        for (Orders orders : ordersList) {
-            if (orders.getVehicleId() == vehicle.getId()) {
+        for (Orders orders : ordersService.getAll()) {
+            if (orders.getVehicleId().equals(id)) {
                 return true;
             }
         }

@@ -33,6 +33,10 @@
                     dtoList.stream().map(VehicleDto::getColor).collect(Collectors.toSet());
             Set<String> uniqEngineNames =
                     dtoList.stream().map(VehicleDto::getEngineName).collect(Collectors.toSet());
+            Set<Double> uniqWeights =
+                    dtoList.stream().map(VehicleDto::getWeight).collect(Collectors.toSet());
+            Set<Integer> uniqYears =
+                    dtoList.stream().map(VehicleDto::getManufactureYear).collect(Collectors.toSet());
 
             AtomicReference<Predicate<VehicleDto>> filter = new AtomicReference<>(vehicleDto -> true);
 
@@ -54,6 +58,21 @@
             Optional.ofNullable(request.getParameter("engine")).filter(s ->
                     !s.isEmpty()).ifPresent(s -> {
                 filter.set(filter.get().and(vehicleDto -> vehicleDto.getEngineName().equals(s)));
+            });
+
+            Optional.ofNullable(request.getParameter("weight")).filter(s ->
+                    !s.isEmpty()).ifPresent(s -> {
+                filter.set(filter.get().and(vehicleDto -> Double.parseDouble(s) == vehicleDto.getWeight()));
+            });
+
+            Optional.ofNullable(request.getParameter("weight")).filter(s ->
+                    !s.isEmpty()).ifPresent(s -> {
+                filter.set(filter.get().and(vehicleDto -> Double.parseDouble(s) == vehicleDto.getWeight()));
+            });
+
+            Optional.ofNullable(request.getParameter("year")).filter(s ->
+                    !s.isEmpty()).ifPresent(s -> {
+                filter.set(filter.get().and(vehicleDto -> Integer.parseInt(s) == vehicleDto.getManufactureYear()));
             });
 
             dtoList = dtoList.stream().filter(filter.get()).collect(Collectors.toList());
@@ -149,6 +168,30 @@
                         <option value="<%=s%>"
                                 <%=(request.getParameter("color") != null &&
                                         s.equals(request.getParameter("color")) ? "selected" : "")%>><%=s%></option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="ml-20">
+                    <p>Масса</p>
+                    <select name="weight" >
+                        <option value=""
+                                <%=request.getParameter("weight") == null ? "selected" : ""%>>Не выбрано</option>
+                        <%for (Double s : uniqWeights) {%>
+                        <option value="<%=s%>"
+                                <%=(request.getParameter("weight") != null && !request.getParameter("weight").equals("") &&
+                                        s.equals(Double.parseDouble(request.getParameter("weight"))) ? "selected" : "")%>><%=s%></option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="ml-20">
+                    <p>Год</p>
+                    <select name="year" >
+                        <option value=""
+                                <%=request.getParameter("year") == null ? "selected" : ""%>>Не выбрано</option>
+                        <%for (Integer s : uniqYears) {%>
+                        <option value="<%=s%>"
+                                <%=(request.getParameter("year") != null && !request.getParameter("year").equals("") &&
+                                        s.equals(Integer.parseInt(request.getParameter("year"))) ? "selected" : "")%>><%=s%></option>
                         <%}%>
                     </select>
                 </div>

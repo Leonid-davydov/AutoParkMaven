@@ -1,10 +1,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="by.incubator.application.dto.VehicleDto" %>
-<%@ page import="by.incubator.application.dto.OrdersDto" %><%--
+<%@ page import="by.incubator.application.dto.OrdersDto" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Леонид
   Date: 20.06.2022
-  Time: 9:31
+  Time: 10:36
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -22,8 +23,25 @@
             List<VehicleDto> dtoList = (List<VehicleDto>) request.getAttribute("cars");
             List<OrdersDto> oldOrders = (List<OrdersDto>) request.getAttribute("oldOrders");
             List<OrdersDto> newOrders = (List<OrdersDto>) request.getAttribute("newOrders");
+
+            Date current = new Date();
+            Date lastChek = (Date) request.getAttribute("date");
+            long difference = current.getTime() - lastChek.getTime();
+
+            long frequency = (long) request.getAttribute("frequency");
+            int frequencyMinutes = (int) (frequency / 60000);
+            int frequencySeconds = (int) ((frequency - frequencyMinutes * 60000) / 1000);
+
+            int differenceMinutes = (int) (difference / 60000);
+            int differenceSeconds = (int) ((difference - differenceMinutes * 60000) / 1000);
         %>
         <a class="ml-20" href="resources/index.html">На главную</a>
+        <p>
+            Период: <strong><%=frequencyMinutes + " минут " + frequencySeconds + " секунд"%></strong>
+        </p>
+        <p>
+            Последняя была: <strong><%=differenceMinutes + " минут " + differenceSeconds + " секунд назад"%></strong>
+        </p>
         <br/>
         <br/>
         <hr/>

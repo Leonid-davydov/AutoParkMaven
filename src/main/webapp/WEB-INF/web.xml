@@ -62,4 +62,13 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <servlet-name>ViewDiagnosticServlet</servlet-name>
         <url-pattern>/viewDiagnostic</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewPlannedDiagnosticServlet</servlet-name>
+        <servlet-class>by.incubator.application.servlets.ViewPlannedDiagnosticServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewPlannedDiagnosticServlet</servlet-name>
+        <url-pattern>/viewPlannedDiagnostic</url-pattern>
+    </servlet-mapping>
 </web-app>
