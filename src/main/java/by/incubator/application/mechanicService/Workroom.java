@@ -33,4 +33,8 @@ public class Workroom {
                 System.out.println(vehicle);
         }
     }
+
+    public void repairAllVehicles() {
+
+    }
 }

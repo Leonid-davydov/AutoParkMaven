@@ -113,7 +113,6 @@
         <p>
             Доход: <strong><%=sum - vehicle.getTaxCoefficient()%></strong>
         </p>
-
     </div>
 </div>
 </body>

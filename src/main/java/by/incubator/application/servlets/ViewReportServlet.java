@@ -15,9 +15,7 @@ import java.util.Map;
 
 @WebServlet(name = "/viewReport")
 public class ViewReportServlet extends HttpServlet {
-    Map<Class<?>, Class<?>> interfaceToImplementation = Main.initInterfaceToImplementation();
-    ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
-    VehicleTypeService vehicleTypeService = context.getObject(VehicleTypeService.class);
+    VehicleTypeService vehicleTypeService = new VehicleTypeService();
 
     @Override
     public void init() throws ServletException {
@@ -27,6 +25,7 @@ public class ViewReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("cars", vehicleTypeService.getVehicles());
+        request.setAttribute("rents", vehicleTypeService.getRents());
         RequestDispatcher dispatcher = this.getServletContext()
                 .getRequestDispatcher("/jsp/viewReportJSP.jsp");
         dispatcher.forward(request, response);

@@ -44,4 +44,22 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <servlet-name>ViewInfoServlet</servlet-name>
         <url-pattern>/viewInfo</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewReportServlet</servlet-name>
+        <servlet-class>by.incubator.application.servlets.ViewReportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewReportServlet</servlet-name>
+        <url-pattern>/viewReport</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewDiagnosticServlet</servlet-name>
+        <servlet-class>by.incubator.application.servlets.ViewDiagnosticServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewDiagnosticServlet</servlet-name>
+        <url-pattern>/viewDiagnostic</url-pattern>
+    </servlet-mapping>
 </web-app>

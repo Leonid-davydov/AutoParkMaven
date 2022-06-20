@@ -6,6 +6,7 @@ import by.incubator.application.entity.Types;
 import by.incubator.application.infrastrucrure.core.annotations.Autowired;
 import by.incubator.application.infrastrucrure.core.impl.ApplicationContext;
 import by.incubator.application.main.Main;
+import by.incubator.application.service.OrdersService;
 import by.incubator.application.service.RentsService;
 import by.incubator.application.service.TypesService;
 import by.incubator.application.service.VehicleService;
@@ -20,11 +21,9 @@ public class VehicleTypeService {
     ApplicationContext context = new ApplicationContext("by.incubator.application", interfaceToImplementation);
 
     VehicleService vehicleService = context.getObject(VehicleService.class);
-
     TypesService typesService = context.getObject(TypesService.class);
-
     RentsService rentsService = context.getObject(RentsService.class);
-
+    OrdersService ordersService = context.getObject(OrdersService.class);
     Logic logic = context.getObject(Logic.class);
 
     public List<VehicleDto> getVehicles() {
@@ -78,6 +77,32 @@ public class VehicleTypeService {
             }
         }
 
+
+
         return rentsDtoList;
+    }
+
+    public List<RentsDto> getRents() {
+        return rentsService.getAll().stream().map(rents -> {
+
+            return RentsDto.builder()
+                    .id(rents.getId())
+                    .carId(rents.getCarId())
+                    .date(rents.getDate())
+                    .cost(rents.getCost())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    public List<OrdersDto> getOrders() {
+        return ordersService.getAll().stream().map(orders -> {
+
+            return OrdersDto.builder()
+                    .id(orders.getId())
+                    .vehicleId(orders.getVehicleId())
+                    .defect(orders.getDefect())
+                    .breakingAmount(orders.getBreakingAmount())
+                    .build();
+        }).collect(Collectors.toList());
     }
 }
