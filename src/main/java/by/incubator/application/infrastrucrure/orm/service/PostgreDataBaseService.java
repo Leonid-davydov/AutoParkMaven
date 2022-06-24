@@ -39,12 +39,15 @@ public class PostgreDataBaseService {
                     ");";
     private static final String CREATE_TABLE_SQL_PATTERN =
             "CREATE TABLE %s (\n" +
-                    "    %s integer PRIMARY KEY DEFAULT nextval('%s')" +
+                    "    %s serial PRIMARY KEY" +
                     "    %S\n);";
     private static final String INSERT_SQL_PATTERN =
             "INSERT INTO %s(%s)\n" +
                     "    VALUES (%s)\n" +
                     "    RETURNING %s ;";
+    private static final String DELETE_SQL_PATTERN =
+            "DELETE FROM %s\n" +
+            "WHERE %s = %s;";
     @Autowired
     private ConnectionFactory connectionFactory;
     @Autowired
@@ -83,7 +86,7 @@ public class PostgreDataBaseService {
     public Long save(Object obj) {
         Long id;
         Field idField = getIdField(obj.getClass().getDeclaredFields());
-        String idFieldName = getIdField(obj.getClass().getDeclaredFields()).getAnnotation(ID.class).name();
+        String idFieldName = idField.getAnnotation(ID.class).name();
         Object[] values = getValues(obj);
         String sql = String.format(insertByClassPattern.get(obj.getClass().getName()), values);
 
@@ -146,6 +149,27 @@ public class PostgreDataBaseService {
         }
 
         return list;
+    }
+
+    @SneakyThrows
+    public void delete(Object obj) {
+        Field idField = getIdField(obj.getClass().getDeclaredFields());
+        String idFieldName = idField.getAnnotation(ID.class).name();
+        idField.setAccessible(true);
+        Long id = (Long) idField.get(obj);
+
+        String sql = String.format(DELETE_SQL_PATTERN, obj.getClass().getAnnotation(Table.class).name(),
+                idFieldName, id);
+
+        try (Connection connection = connectionFactory.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            System.out.println(sql);
+
+            ResultSet r = statement.executeQuery(sql);
+        } catch (SQLException e) {
+
+        }
     }
 
     private boolean isIdSeq() {
@@ -246,7 +270,7 @@ public class PostgreDataBaseService {
         String tableName = entity.getDeclaredAnnotation(Table.class).name();
         String idField = getIdField(declaredFields).getAnnotation(ID.class).name();
         String fields = buildFields(declaredFields);
-        String sql = String.format(CREATE_TABLE_SQL_PATTERN, tableName, idField, SEQ_NAME, fields);
+        String sql = String.format(CREATE_TABLE_SQL_PATTERN, tableName, idField, fields);
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement()) {

@@ -17,6 +17,14 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
     private String password;
     private Connection connection;
 
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ConnectionFactoryImpl() {
     }
 

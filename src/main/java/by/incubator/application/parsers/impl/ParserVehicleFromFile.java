@@ -77,7 +77,7 @@ public class ParserVehicleFromFile implements ParserVehicle {
                 date = new Date(formatter.parse(fileLine.substring(from, to)).getTime());
                 price = Double.parseDouble(fileLine.substring(to + 1).replaceAll(",", ".").replaceAll("\"", " "));
 
-                newList.add(new Rents(id, date, price));
+                newList.add(new Rents(1l, id, date, price));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,6 +188,8 @@ public class ParserVehicleFromFile implements ParserVehicle {
         Color color = null;
         String strEngine;
         Startable engine = null;
+        Integer volume = null;
+        Integer consumption = null;
         String one;
         String two;
         String three = "";
@@ -268,7 +270,7 @@ public class ParserVehicleFromFile implements ParserVehicle {
                 to = fileLine.length();
             }
 
-            three = fileLine.substring(from, to).replaceAll(",", ".");
+            three = fileLine.substring(from + 1, to).replaceAll(",", ".");
         }
 
         for (Color c : Color.values()) {
@@ -279,15 +281,17 @@ public class ParserVehicleFromFile implements ParserVehicle {
         }
 
         if (strEngine.equals("Electrical")) {
-            engine = new ElectricalEngine(Integer.parseInt(one), Integer.parseInt(two));
-        } else if (strEngine.equals("Diesel")) {
-            engine = new DieselEngine(Double.parseDouble(one), Double.parseDouble(two), Double.parseDouble(three));
-        } else if (strEngine.equals("Gasoline")) {
-            engine = new GasolineEngine(Double.parseDouble(one), Double.parseDouble(two), Double.parseDouble(three));
+            volume = Integer.parseInt(one);
+            consumption = Integer.parseInt(two);
+        } else if (strEngine.equals("Diesel") || strEngine.equals("Gasoline")) {
+
+            volume = (int) (Double.parseDouble(two) * 100);
+            consumption = Integer.parseInt(three);
         } else {
+            throw new RuntimeException("Unknown engine");
         }
 
         return new Vehicles(id, vehicleType, modelName, registrationNumber, weight,
-                            manufactureYear, mileage, strColor, strEngine);
+                            manufactureYear, mileage, strColor, strEngine, volume, consumption);
     }
 }
